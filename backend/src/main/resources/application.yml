@@ -10,9 +10,9 @@ spring:
   # 数据库配置（本地）
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/xsyq_db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
-    username: root
-    password: password # 用户需根据本地环境修改
+    url: jdbc:mysql://127.0.0.1:3306/xsyq?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: xsyq
+    password: 2jLLw5Wf7F3A3TL7 # 用户需根据本地环境修改
 
   # Redis配置（本地）
   data:
