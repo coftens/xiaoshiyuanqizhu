@@ -32,10 +32,10 @@ public class ReportServiceImpl implements ReportService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    @Value("${aliyun.ai.api-key}")
+    @Value("${aliyun.ai.api-key:}")
     private String apiKey;
 
-    @Value("${aliyun.ai.model}")
+    @Value("${aliyun.ai.model:qwen-plus}")
     private String aiModel;
 
     @Override

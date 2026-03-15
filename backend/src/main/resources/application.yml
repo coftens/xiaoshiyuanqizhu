@@ -46,3 +46,4 @@ jwt:
 aliyun:
   ai:
     api-key: sk-3b50dcc8bf3c4e3aa6f29ef70e902af8
+    model: qwen-plus
