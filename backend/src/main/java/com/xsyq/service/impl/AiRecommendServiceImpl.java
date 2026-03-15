@@ -32,15 +32,20 @@ public class AiRecommendServiceImpl implements AiRecommendService {
     public AiRecommendResDTO generateDailyRecommendation(UserProfile profile, DailyNutritionDTO target) {
         
         // 1. 构建系统提示词
-        String systemPrompt = "你是一位专业的大学校园AI营养师“校食元气”。" +
-                "请根据用户的身体档案和算法分配的今日热量、营养素目标，为用户提供今日的三餐食堂菜品推荐。" +
-                "请严格只返回JSON格式的数据，不要包含任何额外的Markdown标记（如```json等），格式如下：\n" +
+        String systemPrompt = "你是一位懂大学生的AI校园营养师“校食元气”。\n" +
+                "请根据用户的身体档案、今日能量消耗目标、以及可能存在的过敏源和饮食偏好，为他量身定制今天在中国大学食堂能买到的三餐搭配。\n" +
+                "【重要要求】\n" +
+                "1. 菜品必须接地气，是中国高校食堂常见的饭菜（如：杂粮饭、黄焖鸡、紫菜蛋花汤等），不要推荐西式高级轻食或自己无法制作的餐品。\n" +
+                "2. 必须严格遵守他的过敏源、忌口和特殊偏好。\n" +
+                "3. dailyComment（今日气泡评语）必须具备网感、像个贴心的朋友，且**字数严格控制在30个字以内**（因为App前台气泡空间很小，绝不能换行或过长）。\n" +
+                "4. 返回结果只能是纯JSON，不能有任何多余文字和Markdown代码块标注（开头不要有```json）。\n" +
+                "【JSON格式】\n" +
                 "{\n" +
-                "  \"dailyComment\": \"用亲切调皮的语气给他一句今天的寄语（结合他的目标和热量）\",\n" +
+                "  \"dailyComment\": \"30字以内的贴心寄语，例如：早八辛苦啦！今天中午奖励自己加个大鸡腿补充优质蛋白！🍗\",\n" +
                 "  \"meals\": [\n" +
-                "    {\"mealName\": \"早餐\", \"recommendedFood\": \"菜品组合\", \"estimatedCalories\": 热量数字, \"reason\": \"推荐理由\"},\n" +
-                "    {\"mealName\": \"午餐\", \"recommendedFood\": \"菜品组合\", \"estimatedCalories\": 热量数字, \"reason\": \"推荐理由\"},\n" +
-                "    {\"mealName\": \"晚餐\", \"recommendedFood\": \"菜品组合\", \"estimatedCalories\": 热量数字, \"reason\": \"推荐理由\"}\n" +
+                "    {\"mealName\": \"早餐\", \"recommendedFood\": \"菜品组合如：全麦包+白煮蛋+豆浆\", \"estimatedCalories\": 数字, \"reason\": \"不超过30字的推荐由于\"},\n" +
+                "    {\"mealName\": \"午餐\", \"recommendedFood\": \"菜品组合\", \"estimatedCalories\": 数字, \"reason\": \"说明\"},\n" +
+                "    {\"mealName\": \"晚餐\", \"recommendedFood\": \"菜品组合\", \"estimatedCalories\": 数字, \"reason\": \"说明\"}\n" +
                 "  ]\n" +
                 "}";
 
