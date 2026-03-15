@@ -3,9 +3,10 @@ package com.xsyq.controller;
 import com.xsyq.common.Result;
 import com.xsyq.dto.WaterRecordDTO;
 import com.xsyq.entity.WaterRecord;
+import com.xsyq.security.CustomUserDetails;
 import com.xsyq.service.WaterRecordService;
-import com.xsyq.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,8 +20,9 @@ public class WaterRecordController {
      * 打卡饮水 (每次喝水调用，如传 +250)
      */
     @PostMapping("/add")
-    public Result<Void> addWater(@RequestBody WaterRecordDTO dto) {
-        Long userId = SecurityUtils.getUserId();
+    public Result<Void> addWater(@RequestBody WaterRecordDTO dto, Authentication authentication) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        Long userId = userDetails.getId();
         waterRecordService.addWater(userId, dto.getAmountMl());
         return Result.success(null, "饮水记录成功");
     }
@@ -29,8 +31,9 @@ public class WaterRecordController {
      * 获取今天饮水情况
      */
     @GetMapping("/today")
-    public Result<WaterRecord> getTodayWater() {
-        Long userId = SecurityUtils.getUserId();
+    public Result<WaterRecord> getTodayWater(Authentication authentication) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        Long userId = userDetails.getId();
         WaterRecord record = waterRecordService.getTodayRecord(userId);
         if (record == null) {
             record = new WaterRecord();
