@@ -1,0 +1,11 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+logging:
+  level:
+    com.xsyq: debug
+    org.springframework.security: debug
+
+# 这里你可以添加以后仅限开发环境使用的额外配置
