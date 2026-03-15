@@ -26,7 +26,7 @@ public class MealRecordController {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         Long userId = userDetails.getId();
         mealRecordService.submitFeedback(userId, feedbackDTO);
-        return Result.success(null, "打卡反馈成功");
+        return Result.success();
     }
 
     /**

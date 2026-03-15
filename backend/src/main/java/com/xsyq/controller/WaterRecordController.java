@@ -24,7 +24,7 @@ public class WaterRecordController {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         Long userId = userDetails.getId();
         waterRecordService.addWater(userId, dto.getAmountMl());
-        return Result.success(null, "饮水记录成功");
+        return Result.success();
     }
 
     /**
