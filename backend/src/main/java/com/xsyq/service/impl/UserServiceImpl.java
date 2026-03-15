@@ -48,13 +48,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         User user = new User();
         user.setPhone(dto.getPhone());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        // User表没有password字段（因为C端验证码登录设计），所以无需set password
         user.setCreatedAt(LocalDateTime.now());
         
         this.baseMapper.insert(user);
 
         // Auto login on register for convenience
-        return jwtUtils.generateToken(user.getId(), user.getPhone(), "ROLE_USER");
+        return jwtUtils.generateUserToken(user.getId());
     }
 
     @Override
@@ -63,11 +63,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         wrapper.eq(User::getPhone, dto.getPhone());
         User user = this.baseMapper.selectOne(wrapper);
 
-        if (user == null || !passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-            throw new RuntimeException("手机号或密码不正确");
+        if (user == null) {
+            throw new RuntimeException("该手机号尚未注册");
+        }
+        
+        // 测试截获：统一模拟验证码为 123
+        if (dto.getPassword() != null && !dto.getPassword().equals("123")) {
+            throw new RuntimeException("验证码(模拟密码)错误，请使用 123");
         }
 
-        return jwtUtils.generateToken(user.getId(), user.getPhone(), "ROLE_USER");
+        return jwtUtils.generateUserToken(user.getId());
     }
 
     @Override
