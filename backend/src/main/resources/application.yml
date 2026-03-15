@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: xsyq-backend
+  profiles:
+    active: dev
+  
+  # 数据库配置（本地）
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/xsyq_db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: password # 用户需根据本地环境修改
+
+  # Redis配置（本地）
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      # password: password
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 开发时打印SQL
+
+# JWT 配置自定义
+jwt:
+  secret: n2r5u8x/A?D(G+KbPeShVmYq3t6w9z$B&E)H@McQfTjWnZr4u7x!A%D*G-KaNdRg # 这个密钥需要长一点，生产环境建议放在环境变量
+  accessTokenExpiration: 7200000       # 2小时
+  refreshTokenExpiration: 604800000    # 7天
+  adminTokenExpiration: 86400000       # 管理员默认24小时
